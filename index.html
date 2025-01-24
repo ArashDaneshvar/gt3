@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ask the RAG System</h1>
+        <textarea id="query" placeholder="Enter your question here..."></textarea>
+        <button onclick="submitQuery()">Get Answer</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function submitQuery() {
+            const query = document.getElementById("query").value;
+            const resultDiv = document.getElementById("result");
+
+            if (query) {
+                fetch("https://your-backend-url/ask", {  // Replace with your actual backend URL
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ query: query })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.innerHTML = `<strong>Answer:</strong><br>${data.answer}`;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = "Error: " + error;
+                });
+            } else {
+                resultDiv.innerHTML = "Please enter a question!";
+            }
+        }
+    </script>
+</body>
+</html>
